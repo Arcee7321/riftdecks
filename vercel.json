@@ -1,9 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/gallery", "destination": "/gallery.html" },
-    { "source": "/decks-library", "destination": "/decks-library.html" },
-    { "source": "/deck-builder", "destination": "/deck-builder.html" },
-    { "source": "/my-decks", "destination": "/my-decks.html" },
-    { "source": "/collection-helper", "destination": "/collection-helper.html" }
-  ]
-}
