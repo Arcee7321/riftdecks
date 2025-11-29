@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #111;
+  background: #0d0d0d;
   color: #eee;
   font-family: Arial, sans-serif;
 }
@@ -8,26 +8,32 @@ body {
 header {
   padding: 20px;
   text-align: center;
-  background: #222;
-  border-bottom: 2px solid #333;
+  background: #151515;
+  border-bottom: 2px solid #222;
 }
 
 #gallery {
   padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
 }
 
 .card {
-  background: #1c1c1c;
+  background: #1a1a1a;
   padding: 10px;
-  border-radius: 8px;
-  text-align: center;
+  border-radius: 10px;
   border: 1px solid #333;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px #ff5555;
 }
 
 .card img {
   width: 100%;
-  border-radius: 6px;
+  border-radius: 8px;
 }
