@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RiftDecks - Card Gallery</title>
-  <link rel="stylesheet" href="style.css" />
-<link rel="stylesheet" href="css/navbar.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RiftDecks - Home</title>
 
+  <!-- NAVBAR STYLES -->
+  <link rel="stylesheet" href="css/navbar.css">
+
+  <!-- HOME PAGE STYLES -->
+  <link rel="stylesheet" href="css/home.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
 <body>
-<nav class="navbar">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="nav-logo">RiftDecks</div>
 
     <ul class="nav-links">
@@ -29,12 +38,74 @@
     </ul>
   </nav>
 
-  <header>
-    <h1>RiftDecks — Card Gallery</h1>
-  </header>
 
-  <main id="gallery"></main>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Master the Riftbound</h1>
+    <p>Your home for cards, decks, and collection tracking.</p>
 
-  <script src="script.js"></script>
+    <div class="hero-buttons">
+      <a href="gallery.html" class="btn-primary">Explore Card Gallery</a>
+      <a href="deck-builder.html" class="btn-secondary">Open Deck Builder</a>
+    </div>
+  </section>
+
+
+  <!-- QUICK LINKS -->
+  <section class="quick-links">
+    <div class="ql-card">
+      <h3>Card Gallery</h3>
+      <p>Browse every card, filter, and compare stats.</p>
+      <a href="gallery.html">Open →</a>
+    </div>
+
+    <div class="ql-card">
+      <h3>Deck Builder</h3>
+      <p>Create, edit and analyze your custom decks.</p>
+      <a href="deck-builder.html">Open →</a>
+    </div>
+
+    <div class="ql-card">
+      <h3>Collection Helper</h3>
+      <p>Track what you own and calculate missing cards.</p>
+      <a href="collection-helper.html">Open →</a>
+    </div>
+  </section>
+
+
+  <!-- ABOUT -->
+  <section class="about">
+    <h2>About RiftDecks</h2>
+    <p>
+      RiftDecks is a community-made tool for the Riftbound TCG, designed to help players browse cards,
+      build decks, and track their entire collection with ease.
+    </p>
+  </section>
+
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <h3>★ Full Card Database</h3>
+      <p>Search and browse every card in the game with detailed stats.</p>
+    </div>
+
+    <div class="feature">
+      <h3>★ Advanced Deck Builder</h3>
+      <p>Create decks with filtering, analysis, and easy editing.</p>
+    </div>
+
+    <div class="feature">
+      <h3>★ Collection Tracker</h3>
+      <p>Mark owned cards and find what you’re missing.</p>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>RiftDecks — fan-made project. Not affiliated with the official Riftbound creators.</p>
+  </footer>
+
 </body>
 </html>
