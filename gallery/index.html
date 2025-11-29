@@ -6,25 +6,11 @@
   <title>RiftDecks - Card Gallery</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600" rel="stylesheet">
 
-  <style>
+  <link rel="stylesheet" href="/styles/navbar.css">
+
+<style>
     body { margin: 0; background:#000 !important; color:#e0e0e0; font-family:'Inter', sans-serif; min-height:100vh; }
     html { background:#000 !important; height:100%; }
-
-    /* NAVBAR */
-   <link rel="stylesheet" href="/styles/navbar.css">
-
-<div id="navbar-container"></div>
-
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    fetch("/components/navbar.html")
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById("navbar-container").innerHTML = html;
-      });
-  });
-</script>
-
 
     /* PAGE TITLE */
     .gallery-title {
@@ -102,26 +88,21 @@
       width: 100%;
       border-radius: 8px;
     }
-  </style>
+</style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="nav-left">riftdecks.net</div>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="gallery.html">Card Gallery</a></li>
-      <li class="dropdown">
-        <a href="#">Decks ▾</a>
-        <div class="dropdown-content">
-          <a href="decks-library.html">Deck Library</a>
-          <a href="deck-builder.html">Deck Builder</a>
-          <a href="my-decks.html">My Decks</a>
-        </div>
-      </li>
-      <li><a href="collection-helper.html">Collection Helper</a></li>
-    </ul>
-  </nav>
+  <div id="navbar-container"></div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    fetch("/components/navbar.html")
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById("navbar-container").innerHTML = html;
+      });
+  });
+</script>
 
   <h1 class="gallery-title">Card Gallery</h1>
 
