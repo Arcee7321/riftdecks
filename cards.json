@@ -359,12 +359,12 @@
     "faction": "None",
     "subtype": "None",
     "rarity": "Uncommon",
-    "energy": 2,
-    "power": 1,
+    "energy": 5,
+    "power": 2,
     "might": 0,
-    "description": "[Exhaust] [Legion] — The next unit you play this turn enters ready. (Get the effect if you've played another card this turn.)",
-    "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/146d7514f15e6674f471f3aa9c3fadf22c0b634b-744x1039.png?auto=format&fit=fill&q=80&w=437",
-    "tags": ["Red", "Legion", "Exhaust"],
-    "artist": "Envar Studio"
+    "description": "[Action] (Play on your turn or in showdowns.) Kill all gear.",
+    "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/88661e852b864491e6d7f5f087caf4263f61c361-744x1039.png?auto=format&fit=fill&q=80&w=437",
+    "tags": ["Red", "Action", "Kill Gear"],
+    "artist": "Max Grecke"
   }
 ]
