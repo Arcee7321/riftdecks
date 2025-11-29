@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  background: #0b0b0f;
+  color: #e8e0ff;
+  font-family: 'Inter', sans-serif;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 120px 20px;
+  background: linear-gradient(180deg, #141421, #0b0b0f);
+  box-shadow: 0 0 60px #7e22ce50 inset;
+}
+
+.hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 56px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 40px;
+  color: #b8a8ff;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary {
+  background: #a855f7;
+  padding: 14px 28px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 20px #a855f7;
+  transform: translateY(-3px);
+}
+
+.btn-secondary {
+  border: 2px solid #a855f7;
+  padding: 12px 26px;
+  border-radius: 6px;
+  color: #a855f7;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #a855f7;
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* QUICK LINKS */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  padding: 60px 30px;
+}
+
+.ql-card {
+  background: #181824;
+  border: 1px solid #2b2b38;
+  padding: 25px;
+  border-radius: 10px;
+  transition: 0.25s;
+}
+
+.ql-card:hover {
+  box-shadow: 0 0 18px #a855f750;
+  transform: translateY(-4px);
+}
+
+.ql-card h3 {
+  margin: 0 0 10px;
+  font-family: 'Cinzel', serif;
+}
+
+.ql-card a {
+  color: #c084fc;
+  text-decoration: none;
+}
+
+/* ABOUT */
+.about {
+  text-align: center;
+  padding: 80px 25px;
+  background: #11111a;
+}
+
+.about h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+/* FEATURES */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  padding: 70px 25px;
+  gap: 30px;
+}
+
+.feature {
+  background: #181824;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #2b2b38;
+}
+
+.feature h3 {
+  margin-top: 0;
+  color: #c084fc;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #b8a8ff;
+  background: #0b0b0f;
+  margin-top: 40px;
+}
