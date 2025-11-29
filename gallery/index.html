@@ -11,57 +11,17 @@
     html { background:#000 !important; height:100%; }
 
     /* NAVBAR */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      padding: 10px 25px;
-      background: #0f0f0f;
-      border-bottom: 2px solid #a855f7;
-      position: relative;
-    }
-    .nav-left {
-      color: #e0e0e0;
-      font-weight: 900;
-      font-family: 'Cinzel', serif;
-      font-size: 20px;
-      margin-right: auto;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 14px;
-      margin: 0;
-      padding: 0;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .nav-links a { color: #e0e0e0; text-decoration: none; font-size: 16px; font-weight: 700; }
-    .nav-links a:hover { color: #c084fc; }
+   <link rel="stylesheet" href="/styles/navbar.css">
 
-    .dropdown { position: relative; }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%; left: 0;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 6px;
-      min-width: 160px;
-    }
-    .dropdown:hover .dropdown-content { display: block; }
-    .dropdown-content a {
-      display: block;
-      padding: 8px 14px;
-      color: #ccc;
-      text-decoration: none;
-    }
-    .dropdown-content a:hover { background: #262626; color: #c084fc; }
+<div id="navbar-container"></div>
+
+<script>
+  fetch("/components/navbar.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("navbar-container").innerHTML = html;
+    });
+</script>
 
     /* PAGE TITLE */
     .gallery-title {
