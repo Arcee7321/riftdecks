@@ -1,1 +1,276 @@
-PLACEHOLDER - will fill after due to length
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Gallery - RiftDecks</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #e0e0e0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      padding: 10px 25px;
+      background: #0f0f0f;
+      border-bottom: 2px solid #a855f7;
+      position: relative;
+    }
+
+    .nav-left {
+      color: #e0e0e0;
+      font-weight: 900;
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      margin-right: auto;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover {
+      color: #c084fc;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      min-width: 160px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 8px 14px;
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background: #262626;
+      color: #c084fc;
+    }
+
+    /* SEARCH / FILTERS */
+    .filters-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 40px auto 20px;
+      text-align: center;
+    }
+
+    #searchBar {
+      width: 60%;
+      max-width: 500px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border: 2px solid #a855f7;
+      background: #0f0f0f;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .filter-group {
+      margin: 12px 0;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      margin: 5px;
+      border-radius: 6px;
+      border: 1px solid #a855f7;
+      background: #1a1a1a;
+      color: #c084fc;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #a855f7;
+      color: white;
+    }
+
+    /* CARD GRID */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      padding: 30px;
+      max-width: 1600px;
+      margin: auto;
+    }
+
+    .card-item img {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .card-item img:hover {
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">riftdecks.net</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Card Gallery</a></li>
+      <li class="dropdown">
+        <a href="#">Decks ▾</a>
+        <div class="dropdown-content">
+          <a href="decks-library.html">Deck Library</a>
+          <a href="deck-builder.html">Deck Builder</a>
+          <a href="my-decks.html">My Decks</a>
+        </div>
+      </li>
+      <li><a href="collection-helper.html">Collection Helper</a></li>
+    </ul>
+  </nav>
+
+  <!-- FILTERS -->
+  <div class="filters-container">
+
+    <input type="text" id="searchBar" placeholder="Search by name...">
+
+    <div class="filter-group" id="colorFilters">
+      <button class="filter-btn" data-color="ALL">ALL</button>
+      <button class="filter-btn" data-color="Red">Red</button>
+      <button class="filter-btn" data-color="Green">Green</button>
+      <button class="filter-btn" data-color="Blue">Blue</button>
+      <button class="filter-btn" data-color="Orange">Orange</button>
+      <button class="filter-btn" data-color="Purple">Purple</button>
+      <button class="filter-btn" data-color="Yellow">Yellow</button>
+    </div>
+
+    <div class="filter-group" id="tagFilters">
+      <button class="filter-btn" data-tag="Accelerate">Accelerate</button>
+      <button class="filter-btn" data-tag="Assault">Assault</button>
+      <button class="filter-btn" data-tag="Draw">Draw</button>
+    </div>
+
+  </div>
+
+  <!-- CARD GRID -->
+  <div class="card-grid"></div>
+
+  <script>
+    let cards = [];
+    let activeColor = "ALL";
+    let activeTags = [];
+
+    const grid = document.querySelector('.card-grid');
+    const searchBar = document.getElementById('searchBar');
+
+    function renderCards(list) {
+      grid.innerHTML = "";
+      list.forEach(card => {
+        grid.innerHTML += `
+          <div class="card-item">
+            <img src="${card.image}" alt="${card.name}">
+          </div>
+        `;
+      });
+    }
+
+    function applyFilters() {
+      let filtered = cards;
+
+      const query = searchBar.value.toLowerCase();
+      if (query) {
+        filtered = filtered.filter(c => c.name.toLowerCase().includes(query));
+      }
+
+      if (activeColor !== "ALL") {
+        filtered = filtered.filter(c => c.tags.includes(activeColor));
+      }
+
+      if (activeTags.length > 0) {
+        filtered = filtered.filter(c => activeTags.every(t => c.tags.includes(t)));
+      }
+
+      renderCards(filtered);
+    }
+
+    searchBar.addEventListener('input', applyFilters);
+
+    document.querySelectorAll('#colorFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#colorFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeColor = btn.dataset.color;
+        applyFilters();
+      });
+    });
+
+    document.querySelectorAll('#tagFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const tag = btn.dataset.tag;
+        if (activeTags.includes(tag)) {
+          activeTags = activeTags.filter(t => t !== tag);
+        } else {
+          activeTags.push(tag);
+        }
+        applyFilters();
+      });
+    });
+
+    fetch("cards.json")
+      .then(res => res.json())
+      .then(data => {
+        cards = data;
+        renderCards(cards);
+      });
+
+  </script>
+
+</body>
+</html>
