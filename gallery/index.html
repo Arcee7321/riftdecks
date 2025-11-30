@@ -207,7 +207,11 @@
   <h1 class="gallery-title">Card Gallery</h1>
 
   <div class="gallery-container">
-    <input id="searchBar" type="text" placeholder="Search cards by name...">
+    <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:12px;">
+  <button id="filter-name" class="search-filter active" style="height:44px; padding:0 16px; background:#2a103d; border:1px solid #a855f7; color:#fff; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center;">NAME</button>
+  <button id="filter-desc" class="search-filter" style="height:44px; padding:0 16px; background:#111; border:1px solid #444; color:#e0e0e0; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center;">DESCRIPTION</button>
+  <input id="searchBar" style="height:44px; flex:1; padding:0 16px; box-sizing:border-box; type="text" placeholder="Search cards..." style="flex:1; padding:12px 16px; background:#111; border:1px solid #333; border-radius:6px; color:#e0e0e0; font-size:16px; outline:none;">
+</div>
 
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:30px; margin-bottom:20px; flex-wrap:wrap;">
 
@@ -288,7 +292,8 @@
     const propertyButtons = document.querySelectorAll('.prop-btn');
 
     let activeColors = new Set(['ALL']);
-    let activeProperties = new Set(['ALL']);
+    let activeSearchMode = 'name';
+let activeProperties = new Set(['ALL']);
 
     const renderCards = (list) => {
       grid.innerHTML = '';
@@ -302,8 +307,12 @@
     };
 
     function applyFilters() {
-      const nameQuery = searchBar.value.toLowerCase();
-      let filtered = cards.filter(card => card.name.toLowerCase().includes(nameQuery));
+      const query = searchBar.value.toLowerCase();
+      let filtered = cards.filter(card => {
+        if (activeSearchMode === 'name') return card.name.toLowerCase().includes(query);
+        return card.description?.toLowerCase().includes(query);
+      });
+      
 
       if (!activeColors.has('ALL')) {
         filtered = filtered.filter(card => card.tags.some(tag => activeColors.has(tag)));
@@ -328,6 +337,32 @@
 
       renderCards(filtered);
     }
+
+    document.getElementById('filter-name').addEventListener('click', () => {
+      activeSearchMode = 'name';
+      document.getElementById('filter-name').style.background = '#2a103d';
+      document.getElementById('filter-name').style.border = '1px solid #a855f7';
+      document.getElementById('filter-name').style.color = '#fff';
+      document.getElementById('filter-desc').style.background = '#111';
+      document.getElementById('filter-desc').style.border = '1px solid #444';
+      document.getElementById('filter-desc').style.color = '#e0e0e0';
+      document.getElementById('filter-name').classList.add('active');
+      document.getElementById('filter-desc').classList.remove('active');
+      applyFilters();
+    });
+
+    document.getElementById('filter-desc').addEventListener('click', () => {
+      activeSearchMode = 'description';
+      document.getElementById('filter-desc').style.background = '#2a103d';
+      document.getElementById('filter-desc').style.border = '1px solid #a855f7';
+      document.getElementById('filter-desc').style.color = '#fff';
+      document.getElementById('filter-name').style.background = '#111';
+      document.getElementById('filter-name').style.border = '1px solid #444';
+      document.getElementById('filter-name').style.color = '#e0e0e0';
+      document.getElementById('filter-desc').classList.add('active');
+      document.getElementById('filter-name').classList.remove('active');
+      applyFilters();
+    });
 
     searchBar.addEventListener('input', applyFilters);
 
