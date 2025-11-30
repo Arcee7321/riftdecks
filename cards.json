@@ -300,7 +300,7 @@
     "might": 3,
     "description": "Your opponents' [Hidden] cards can't be revealed here.",
     "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/game_data_live/b78f0c822cb984db24ac3f1956cc8c10f8f88b22-744x1039.png?auto=format&fit=fill&q=80&w=437",
-    "tags": ["Red", "Legion"],
+    "tags": ["Red", "Hidden"],
     "artist": "Six More Vodka"
   },
   {
