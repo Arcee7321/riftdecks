@@ -98,12 +98,25 @@
       border-radius: 8px;
       
     }
-    .prop-btn img {
-    width: 40px;
-    height: 18px;
-    object-fit: contain;
-    display: block;
-    pointer-events: none;
+    .prop-btn {
+  background:#111;
+  border:1px solid #444;
+  padding:4px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:40px; /* <-- ważne */
+}
+
+.prop-btn img {
+  height: 28px;      /* zwiększamy wysokość */
+  width: auto;       /* zachowuje proporcje */
+  display: block;
+  pointer-events: none;
+}
+
   }
 
 </style>
