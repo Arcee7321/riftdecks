@@ -218,6 +218,10 @@
         color: #6b4a8f;
     }
 
+#propertyFilters .prop-btn:nth-child(6n+1){flex-basis:auto;}
+
+.break{flex-basis:100%; height:0;}
+
 </style>
 </head>
 <body>
@@ -256,13 +260,14 @@
       <button class="color-btn active" data-color="ALL"><b>ALL</b></button>
     </div>
 
-    <div id="propertyFilters" style="display:grid; grid-template-columns:repeat(6, max-content); gap:10px; margin-bottom:20px;">
+    <div id="propertyFilters" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
       <button class="prop-btn" data-prop="Accelerate"><img src="/assets/properties/accelerate.webp" alt="Accelerate"></button>
       <button class="prop-btn" data-prop="Assault"><img src="/assets/properties/assault.webp" alt="Assault"></button>
       <button class="prop-btn" data-prop="Action"><img src="/assets/properties/action.webp" alt="Action"></button>
       <button class="prop-btn" data-prop="Legion"><img src="/assets/properties/legion.webp" alt="Legion"></button>
       <button class="prop-btn" data-prop="Ganking"><img src="/assets/properties/ganking.webp" alt="Ganking"></button>
       <button class="prop-btn" data-prop="Hidden"><img src="/assets/properties/hidden.webp" alt="Hidden"></button>
+      <div class="break"></div>
       <button class="prop-btn" data-prop="Exhaust"><img src="/assets/properties/exhaust.webp" alt="Exhaust"></button>
       <button class="prop-btn" data-prop="Draw"><b>DRAW</b></button>
       <button class="prop-btn active" data-prop="ALL"><b>ALL</b></button>
