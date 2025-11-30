@@ -97,19 +97,22 @@
     border:1px solid #444;
     border-radius:6px;
     cursor:pointer;
-    display:inline-flex; /* auto-szerokość */
+    display:inline-flex;
     align-items:center;
     justify-content:center;
-    padding: 4px 6px; /* odstęp wokół grafiki */
-    height:auto; /* ważne */
+    padding: 4px 6px;
+    height:auto;
+    flex: 0 0 auto; /* <<< to sprawia, że szerokość = szerokość grafiki */
 }
+
   
     .prop-btn img {
-      width: auto;
-      height:40px;
-      display: block;
-      pointer-events: none;
-    }
+    height:40px; 
+    width:auto;   /* grafika nadaje szerokość buttonowi */
+    display:block;
+    pointer-events:none;
+}
+
     
     /* RANGE SLIDERS — RIFTDECKS THEME */
     .filter {
