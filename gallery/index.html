@@ -96,7 +96,16 @@
     .card-item img {
       width: 100%;
       border-radius: 8px;
+      
     }
+    .prop-btn img {
+    width: 40px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+  }
+
 </style>
 </head>
 <body>
@@ -132,7 +141,7 @@
 
     <!-- PROPERTY FILTERS -->
     <div id="propertyFilters" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
-      <button class="prop-btn" data-prop="Accelerate">Accelerate</button>
+      <button class="prop-btn" data-prop="Accelerate"><img src="/assets/properties/accelerate.webp" alt="Accelerate"></button>
       <button class="prop-btn" data-prop="Assault">Assault</button>
       <button class="prop-btn" data-prop="Draw">Draw</button>
       <button class="prop-btn" data-prop="ALL">ALL</button>
