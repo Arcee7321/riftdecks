@@ -12,7 +12,6 @@
     body { margin: 0; background:#000 !important; color:#e0e0e0; font-family:'Inter', sans-serif; min-height:100vh; }
     html { background:#000 !important; height:100%; }
 
-    /* PAGE TITLE */
     .gallery-title {
       font-family: 'Cinzel', serif;
       font-size: 42px;
@@ -29,16 +28,6 @@
       padding: 20px;
     }
 
-    /* SEARCH + FILTERS */
-    .color-btn img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-      display: block;
-      pointer-events: none;
-    }
-
-    /* SEARCH + FILTERS */
     #searchBar {
       width: 100%;
       padding: 12px 16px;
@@ -72,7 +61,14 @@
       background:#2a103d;
     }
 
-    /* GRID */
+    .color-btn img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+
     .card-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -89,35 +85,96 @@
 
     .card-item:hover {
       transform: translateY(-5px);
-      box-shadow: none;
-      border-color: transparent;
     }
 
     .card-item img {
       width: 100%;
       border-radius: 8px;
-      
     }
+
     .prop-btn {
-  background:#111;
-  border:1px solid #444;
-  padding:4px 10px;
-  border-radius:6px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:40px; /* <-- ważne */
-}
+      background:#111;
+      border:1px solid #444;
+      padding:4px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:40px;
+    }
 
-.prop-btn img {
-  height: auto;      /* zwiększamy wysokość */
-  width: 100px;       /* zachowuje proporcje */
-  display: block;
-  pointer-events: none;
-}
-
-  }
+    .prop-btn img {
+      width: 100px;
+      height:auto;
+      display: block;
+      pointer-events: none;
+    }
+    
+    /* RANGE SLIDERS — RIFTDECKS THEME */
+    .filter {
+        margin-bottom: 26px;
+    }
+    .label-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+        color: #e8d8ff;
+        font-family: 'Cinzel', serif;
+        text-shadow: 0 0 8px #a855f7;
+    }
+    .slider-container {
+        position: relative;
+        height: 34px;
+    }
+    .range-track {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 10px;
+        width: 100%;
+        background: #1a1a1a;
+        border-radius: 6px;
+        box-shadow: 0 0 6px #3b1363 inset;
+        border: 1px solid #2b0c4a;
+    }
+    .range-fill {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 10px;
+        background: linear-gradient(90deg, #a855f7, #6d28d9);
+        border-radius: 6px;
+        box-shadow: 0 0 10px #a855f7;
+    }
+    input[type=range] {
+        position: absolute;
+        width: 100%;
+        pointer-events: none;
+        background: none;
+        -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        pointer-events: auto;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #0a0018;
+        border: 2px solid #c084fc;
+        box-shadow: 0 0 10px #a855f7;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+        box-shadow: 0 0 14px #d8b4fe;
+        border-color: #e9d5ff;
+    }
+    .scale {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        margin-top: 6px;
+        color: #6b4a8f;
+    }
 
 </style>
 </head>
@@ -138,11 +195,12 @@
   <h1 class="gallery-title">Card Gallery</h1>
 
   <div class="gallery-container">
-    <!-- SEARCH BAR -->
     <input id="searchBar" type="text" placeholder="Search cards by name...">
 
-    <!-- COLOR FILTERS -->
-    <div id="colorFilters">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:30px; margin-bottom:20px; flex-wrap:wrap;">
+
+  <div style="flex:1; min-width:300px;">
+    <div id="colorFilters" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
       <button class="color-btn" data-color="Red"><img src="/assets/runes/redrune.webp" alt="Red"></button>
       <button class="color-btn" data-color="Green"><img src="/assets/runes/greenrune.webp" alt="Green"></button>
       <button class="color-btn" data-color="Blue"><img src="/assets/runes/bluerune.webp" alt="Blue"></button>
@@ -152,18 +210,60 @@
       <button class="color-btn" data-color="ALL">ALL</button>
     </div>
 
-    <!-- PROPERTY FILTERS -->
     <div id="propertyFilters" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
       <button class="prop-btn" data-prop="Accelerate"><img src="/assets/properties/accelerate.webp" alt="Accelerate"></button>
       <button class="prop-btn" data-prop="Assault"><img src="/assets/properties/assault.webp" alt="Assault"></button>
       <button class="prop-btn" data-prop="Draw">Draw</button>
       <button class="prop-btn" data-prop="ALL">ALL</button>
     </div>
-
-    <div class="card-grid"></div>
   </div>
 
-    <script>
+  <div id="rangeFilters" style="flex:1; min-width:300px; margin-bottom:25px;">
+
+  <div class="filter">
+      <div class="label-row">
+          <label>Energy (0–12)</label>
+          <span id="energy-output">0 – 12</span>
+      </div>
+      <div class="slider-container">
+          <div class="range-track"></div>
+          <div id="energy-fill" class="range-fill"></div>
+          <input id="energy-min" type="range" min="0" max="12" value="0">
+          <input id="energy-max" type="range" min="0" max="12" value="12">
+      </div>
+  </div>
+
+  <div class="filter">
+      <div class="label-row">
+          <label>Might (0–10)</label>
+          <span id="might-output">0 – 10</span>
+      </div>
+      <div class="slider-container">
+          <div class="range-track"></div>
+          <div id="might-fill" class="range-fill"></div>
+          <input id="might-min" type="range" min="0" max="10" value="0">
+          <input id="might-max" type="range" min="0" max="10" value="10">
+      </div>
+  </div>
+
+  <div class="filter">
+      <div class="label-row">
+          <label>Power (0–4)</label>
+          <span id="power-output">0 – 4</span>
+      </div>
+      <div class="slider-container">
+          <div class="range-track"></div>
+          <div id="power-fill" class="range-fill"></div>
+          <input id="power-min" type="range" min="0" max="4" value="0">
+          <input id="power-max" type="range" min="0" max="4" value="4">
+      </div>
+  </div>
+</div>
+
+<div class="card-grid"></div>
+  </div>
+
+<script>
     let cards = [];
 
     const grid = document.querySelector('.card-grid');
@@ -172,7 +272,7 @@
     const propertyButtons = document.querySelectorAll('.prop-btn');
 
     let activeColor = 'ALL';
-let activeProperty = 'ALL';
+    let activeProperty = 'ALL';
 
     const renderCards = (list) => {
       grid.innerHTML = '';
@@ -188,12 +288,28 @@ let activeProperty = 'ALL';
     function applyFilters() {
       const nameQuery = searchBar.value.toLowerCase();
       let filtered = cards.filter(card => card.name.toLowerCase().includes(nameQuery));
+
       if (activeColor !== 'ALL') {
         filtered = filtered.filter(card => card.tags.includes(activeColor));
       }
       if (activeProperty !== 'ALL') {
         filtered = filtered.filter(card => card.tags.includes(activeProperty));
       }
+
+      // RANGE FILTERS
+      const emin = parseInt(document.getElementById('energy-min').value);
+      const emax = parseInt(document.getElementById('energy-max').value);
+      const mmin = parseInt(document.getElementById('might-min').value);
+      const mmax = parseInt(document.getElementById('might-max').value);
+      const pmin = parseInt(document.getElementById('power-min').value);
+      const pmax = parseInt(document.getElementById('power-max').value);
+
+      filtered = filtered.filter(c =>
+        c.energy >= emin && c.energy <= emax &&
+        c.might  >= mmin && c.might  <= mmax &&
+        c.power  >= pmin && c.power  <= pmax
+      );
+
       renderCards(filtered);
     }
 
@@ -214,14 +330,48 @@ let activeProperty = 'ALL';
         renderCards(cards);
       });
 
-    propertyButtons.forEach(btn => {
+    // RANGE SLIDER SYNC
+function updateRange(minEl, maxEl, fillEl, outEl) {
+    let min = parseInt(minEl.value);
+    let max = parseInt(maxEl.value);
+    if (min > max) { let t=min; min=max; max=t; minEl.value=min; maxEl.value=max; }
+    const percentMin = (min / minEl.max) * 100;
+    const percentMax = (max / maxEl.max) * 100;
+    fillEl.style.left = percentMin + '%';
+    fillEl.style.width = (percentMax - percentMin) + '%';
+    outEl.textContent = `${min} – ${max}`;
+    applyFilters();
+}
+
+const emin = document.getElementById('energy-min');
+const emax = document.getElementById('energy-max');
+const efill = document.getElementById('energy-fill');
+const eout  = document.getElementById('energy-output');
+[emin, emax].forEach(el => el.oninput = () => updateRange(emin, emax, efill, eout));
+updateRange(emin, emax, efill, eout);
+
+const mmin = document.getElementById('might-min');
+const mmax = document.getElementById('might-max');
+const mfill = document.getElementById('might-fill');
+const mout  = document.getElementById('might-output');
+[mmin, mmax].forEach(el => el.oninput = () => updateRange(mmin, mmax, mfill, mout));
+updateRange(mmin, mmax, mfill, mout);
+
+const pmin = document.getElementById('power-min');
+const pmax = document.getElementById('power-max');
+const pfill = document.getElementById('power-fill');
+const pout  = document.getElementById('power-output');
+[pmin, pmax].forEach(el => el.oninput = () => updateRange(pmin, pmax, pfill, pout));
+updateRange(pmin, pmax, pfill, pout);
+
+propertyButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         activeProperty = btn.dataset.prop;
         propertyButtons.forEach(b => b.classList.toggle('active', b === btn));
         applyFilters();
       });
     });
-  </script>
+</script>
 
 </body>
 </html>
