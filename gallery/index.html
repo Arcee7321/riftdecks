@@ -222,6 +222,9 @@
 
 .break{flex-basis:100%; height:0;}
 
+.type-btn{background:#111;color:#e0e0e0;border:1px solid #444;border-radius:6px;cursor:pointer;padding:6px 12px;font-size:14px;display:inline-flex;align-items:center;justify-content:center;}
+.type-btn.active{background:#2a103d;border-color:#a855f7;color:#fff;}
+
 </style>
 </head>
 <body>
@@ -258,6 +261,15 @@
       <button class="color-btn" data-color="Purple"><img src="/assets/runes/purplerune.webp" alt="Purple"></button>
       <button class="color-btn" data-color="Yellow"><img src="/assets/runes/yellowrune.webp" alt="Yellow"></button>
       <button class="color-btn active" data-color="ALL"><b>ALL</b></button>
+    </div>
+
+    <div id="typeFilters" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
+      <button class="type-btn" data-type="Champion Unit">Champion Unit</button>
+      <button class="type-btn" data-type="Unit">Unit</button>
+      <button class="type-btn" data-type="Token Unit">Token Unit</button>
+      <button class="type-btn" data-type="Gear">Gear</button>
+      <button class="type-btn" data-type="Spell">Spell</button>
+      <button class="type-btn active" data-type="ALL"><b>ALL</b></button>
     </div>
 
     <div id="propertyFilters" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px;">
@@ -413,6 +425,28 @@
           if (activeColors.has(color)) activeColors.delete(color);
           else activeColors.add(color);
           colorButtons.forEach(b => b.classList.toggle('active', activeColors.has(b.dataset.color)));
+        }
+        applyFilters();
+      });
+    });
+
+    // Multi-select type filters
+    const typeButtons = document.querySelectorAll('.type-btn');
+    let activeTypes = new Set(['ALL']);
+
+    typeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = btn.dataset.type;
+
+        if (t === 'ALL') {
+          activeTypes = new Set(['ALL']);
+          typeButtons.forEach(b => b.classList.toggle('active', b.dataset.type === 'ALL'));
+        } else {
+          if (activeTypes.has('ALL')) activeTypes.delete('ALL');
+          if (activeTypes.has(t)) activeTypes.delete(t);
+          else activeTypes.add(t);
+
+          typeButtons.forEach(b => b.classList.toggle('active', activeTypes.has(b.dataset.type)));
         }
         applyFilters();
       });
