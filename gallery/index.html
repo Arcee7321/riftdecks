@@ -379,6 +379,11 @@
         filtered = filtered.filter(card => card.tags && card.tags.some(tag => activeProperties.has(tag)));
       }
 
+      // TYPE FILTER
+      if (!activeTypes.has('ALL')) {
+        filtered = filtered.filter(card => activeTypes.has(card.type));
+      }
+
       // RANGE FILTERS
       const emin = parseInt(document.getElementById('energy-min').value);
       const emax = parseInt(document.getElementById('energy-max').value);
