@@ -28,16 +28,46 @@
       padding: 20px;
     }
 
-    #searchBar {
-      width: 100%;
-      padding: 12px 16px;
+    /* SEARCH BAR + FILTER BUTTONS */
+    .search-row {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
       margin-bottom: 12px;
+    }
+
+    .search-filter {
+      height: 44px;
+      padding: 0 16px;
+      background:#111;
+      border:1px solid #444;
+      color:#e0e0e0;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-sizing:border-box;
+    }
+
+    .search-filter.active {
+      background:#2a103d;
+      border-color:#a855f7;
+      color:#fff;
+    }
+
+    #searchBar {
+      height:44px;
+      flex:1;
+      padding:0 16px;
       background: #111;
       border: 1px solid #333;
       border-radius: 6px;
       color: #e0e0e0;
       font-size: 16px;
       outline: none;
+      box-sizing:border-box;
     }
 
     #colorFilters {
@@ -207,11 +237,11 @@
   <h1 class="gallery-title">Card Gallery</h1>
 
   <div class="gallery-container">
-    <div style="display:flex; gap:10px; align-items:stretch; margin-bottom:12px;">
-  <button id="filter-name" class="search-filter active" style="height:44px; padding:0 16px; background:#2a103d; border:1px solid #a855f7; color:#fff; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center;">NAME</button>
-  <button id="filter-desc" class="search-filter" style="height:44px; padding:0 16px; background:#111; border:1px solid #444; color:#e0e0e0; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center;">DESCRIPTION</button>
-  <input id="searchBar" style="height:44px; flex:1; padding:0 16px; box-sizing:border-box; type="text" placeholder="Search cards..." style="flex:1; padding:12px 16px; background:#111; border:1px solid #333; border-radius:6px; color:#e0e0e0; font-size:16px; outline:none;">
-</div>
+    <div class="search-row">
+      <button id="filter-name" class="search-filter active">NAME</button>
+      <button id="filter-desc" class="search-filter">DESCRIPTION</button>
+      <input id="searchBar" type="text" placeholder="Search cards...">
+    </div>
 
     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:30px; margin-bottom:20px; flex-wrap:wrap;">
 
@@ -223,7 +253,7 @@
       <button class="color-btn" data-color="Orange"><img src="/assets/runes/orangerune.webp" alt="Orange"></button>
       <button class="color-btn" data-color="Purple"><img src="/assets/runes/purplerune.webp" alt="Purple"></button>
       <button class="color-btn" data-color="Yellow"><img src="/assets/runes/yellowrune.webp" alt="Yellow"></button>
-      <button class="color-btn active" data-color="ALL"><B>ALL</B></button>
+      <button class="color-btn active" data-color="ALL"><b>ALL</b></button>
     </div>
 
     <div id="propertyFilters" style="display:grid; grid-template-columns:repeat(6, max-content); gap:10px; margin-bottom:20px;">
@@ -290,10 +320,12 @@
     const searchBar = document.getElementById('searchBar');
     const colorButtons = document.querySelectorAll('.color-btn');
     const propertyButtons = document.querySelectorAll('.prop-btn');
+    const filterNameBtn = document.getElementById('filter-name');
+    const filterDescBtn = document.getElementById('filter-desc');
 
     let activeColors = new Set(['ALL']);
-    let activeSearchMode = 'name';
-let activeProperties = new Set(['ALL']);
+    let activeProperties = new Set(['ALL']);
+    let activeSearchMode = 'name'; // 'name' or 'description'
 
     const renderCards = (list) => {
       grid.innerHTML = '';
@@ -307,18 +339,26 @@ let activeProperties = new Set(['ALL']);
     };
 
     function applyFilters() {
-      const query = searchBar.value.toLowerCase();
+      const query = searchBar.value.toLowerCase().trim();
+      const words = query.split(/\s+/).filter(Boolean);
+
       let filtered = cards.filter(card => {
-        if (activeSearchMode === 'name') return card.name.toLowerCase().includes(query);
-        return card.description?.toLowerCase().includes(query);
+        if (!query) return true; // brak tekstu = nie filtrujemy po tekście
+
+        const haystack = (activeSearchMode === 'name'
+          ? (card.name || '')
+          : (card.description || '')
+        ).toLowerCase();
+
+        // wszystkie wpisane słowa muszą się znaleźć w name/description
+        return words.every(w => haystack.includes(w));
       });
-      
 
       if (!activeColors.has('ALL')) {
-        filtered = filtered.filter(card => card.tags.some(tag => activeColors.has(tag)));
+        filtered = filtered.filter(card => card.tags && card.tags.some(tag => activeColors.has(tag)));
       }
       if (!activeProperties.has('ALL')) {
-        filtered = filtered.filter(card => card.tags.some(tag => activeProperties.has(tag)));
+        filtered = filtered.filter(card => card.tags && card.tags.some(tag => activeProperties.has(tag)));
       }
 
       // RANGE FILTERS
@@ -338,29 +378,18 @@ let activeProperties = new Set(['ALL']);
       renderCards(filtered);
     }
 
-    document.getElementById('filter-name').addEventListener('click', () => {
+    // Search mode toggle
+    filterNameBtn.addEventListener('click', () => {
       activeSearchMode = 'name';
-      document.getElementById('filter-name').style.background = '#2a103d';
-      document.getElementById('filter-name').style.border = '1px solid #a855f7';
-      document.getElementById('filter-name').style.color = '#fff';
-      document.getElementById('filter-desc').style.background = '#111';
-      document.getElementById('filter-desc').style.border = '1px solid #444';
-      document.getElementById('filter-desc').style.color = '#e0e0e0';
-      document.getElementById('filter-name').classList.add('active');
-      document.getElementById('filter-desc').classList.remove('active');
+      filterNameBtn.classList.add('active');
+      filterDescBtn.classList.remove('active');
       applyFilters();
     });
 
-    document.getElementById('filter-desc').addEventListener('click', () => {
+    filterDescBtn.addEventListener('click', () => {
       activeSearchMode = 'description';
-      document.getElementById('filter-desc').style.background = '#2a103d';
-      document.getElementById('filter-desc').style.border = '1px solid #a855f7';
-      document.getElementById('filter-desc').style.color = '#fff';
-      document.getElementById('filter-name').style.background = '#111';
-      document.getElementById('filter-name').style.border = '1px solid #444';
-      document.getElementById('filter-name').style.color = '#e0e0e0';
-      document.getElementById('filter-desc').classList.add('active');
-      document.getElementById('filter-name').classList.remove('active');
+      filterDescBtn.classList.add('active');
+      filterNameBtn.classList.remove('active');
       applyFilters();
     });
 
