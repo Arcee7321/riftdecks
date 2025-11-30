@@ -103,7 +103,13 @@
     justify-content:center;
     padding: 4px 6px;
     height:auto;
-    flex: 0 0 auto; /* <<< to sprawia, że szerokość = szerokość grafiki */
+    flex: 0 0 auto;
+}
+
+.prop-btn.active {
+    border-color:#a855f7;
+    color:#ffffff;
+    background:#2a103d;
 }
 
   
@@ -213,7 +219,7 @@
       <button class="color-btn" data-color="Orange"><img src="/assets/runes/orangerune.webp" alt="Orange"></button>
       <button class="color-btn" data-color="Purple"><img src="/assets/runes/purplerune.webp" alt="Purple"></button>
       <button class="color-btn" data-color="Yellow"><img src="/assets/runes/yellowrune.webp" alt="Yellow"></button>
-      <button class="color-btn" data-color="ALL"><B>ALL</B></button>
+      <button class="color-btn active" data-color="ALL"><B>ALL</B></button>
     </div>
 
     <div id="propertyFilters" style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
@@ -224,7 +230,7 @@
       <button class="prop-btn" data-prop="Ganking"><img src="/assets/properties/ganking.webp" alt="Ganking"></button>
       <button class="prop-btn" data-prop="Hidden"><img src="/assets/properties/hidden.webp" alt="Hidden"></button>
       <button class="prop-btn" data-prop="Draw"><b>DRAW</b></button>
-      <button class="prop-btn" data-prop="ALL"><b>ALL</b></button>
+      <button class="prop-btn active" data-prop="ALL"><b>ALL</b></button>
     </div>
   </div>
 
@@ -281,8 +287,8 @@
     const colorButtons = document.querySelectorAll('.color-btn');
     const propertyButtons = document.querySelectorAll('.prop-btn');
 
-    let activeColor = 'ALL';
-    let activeProperty = 'ALL';
+    let activeColors = new Set(['ALL']);
+    let activeProperties = new Set(['ALL']);
 
     const renderCards = (list) => {
       grid.innerHTML = '';
@@ -299,11 +305,11 @@
       const nameQuery = searchBar.value.toLowerCase();
       let filtered = cards.filter(card => card.name.toLowerCase().includes(nameQuery));
 
-      if (activeColor !== 'ALL') {
-        filtered = filtered.filter(card => card.tags.includes(activeColor));
+      if (!activeColors.has('ALL')) {
+        filtered = filtered.filter(card => card.tags.some(tag => activeColors.has(tag)));
       }
-      if (activeProperty !== 'ALL') {
-        filtered = filtered.filter(card => card.tags.includes(activeProperty));
+      if (!activeProperties.has('ALL')) {
+        filtered = filtered.filter(card => card.tags.some(tag => activeProperties.has(tag)));
       }
 
       // RANGE FILTERS
@@ -325,14 +331,44 @@
 
     searchBar.addEventListener('input', applyFilters);
 
+    // Multi-select colors
     colorButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        activeColor = btn.dataset.color;
-        colorButtons.forEach(b => b.classList.toggle('active', b === btn));
+        const color = btn.dataset.color;
+        if (color === 'ALL') {
+          activeColors = new Set(['ALL']);
+          colorButtons.forEach(b => b.classList.toggle('active', b.dataset.color === 'ALL'));
+        } else {
+          if (activeColors.has('ALL')) activeColors.delete('ALL');
+          if (activeColors.has(color)) activeColors.delete(color);
+          else activeColors.add(color);
+          colorButtons.forEach(b => b.classList.toggle('active', activeColors.has(b.dataset.color)));
+        }
         applyFilters();
       });
     });
 
+    // Multi-select properties
+    propertyButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const prop = btn.dataset.prop;
+
+        if (prop === 'ALL') {
+          activeProperties = new Set(['ALL']);
+          propertyButtons.forEach(b => b.classList.toggle('active', b.dataset.prop === 'ALL'));
+        } else {
+          if (activeProperties.has('ALL')) activeProperties.delete('ALL');
+
+          if (activeProperties.has(prop)) activeProperties.delete(prop);
+          else activeProperties.add(prop);
+
+          propertyButtons.forEach(b => b.classList.toggle('active', activeProperties.has(b.dataset.prop)));
+        }
+        applyFilters();
+      });
+    });
+
+    // Load cards
     fetch("cards.json")
       .then(res => res.json())
       .then(data => {
@@ -373,14 +409,6 @@ const pfill = document.getElementById('power-fill');
 const pout  = document.getElementById('power-output');
 [pmin, pmax].forEach(el => el.oninput = () => updateRange(pmin, pmax, pfill, pout));
 updateRange(pmin, pmax, pfill, pout);
-
-propertyButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        activeProperty = btn.dataset.prop;
-        propertyButtons.forEach(b => b.classList.toggle('active', b === btn));
-        applyFilters();
-      });
-    });
 </script>
 
 </body>
